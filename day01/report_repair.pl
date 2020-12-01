@@ -18,6 +18,6 @@ say 'Part 2: ', find_result(\@entries, 3);
 sub find_result($entries, $k) {
     my $iter = combinations($entries, $k);
     while (my $p = $iter->next) {
-        return product(@$p) if sum(@$p) == 2020;
+        return product($p->@*) if sum($p->@*) == 2020;
     }
 }
