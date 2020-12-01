@@ -12,18 +12,12 @@ while (<>) {
     push @entries, $_;
 }
 
-my $iter = combinations(\@entries, 2);
-while (my $p = $iter->next) {
-    if (sum(@$p) == 2020) {
-        say 'Part 1: ', product(@$p);
-        last;
-    }
-}
+say 'Part 1: ', find_result(\@entries, 2);
+say 'Part 2: ', find_result(\@entries, 3);
 
-$iter = combinations(\@entries, 3);
-while (my $p = $iter->next) {
-    if (sum(@$p) == 2020) {
-        say 'Part 2: ', product(@$p);
-        last;
+sub find_result($entries, $k) {
+    my $iter = combinations($entries, $k);
+    while (my $p = $iter->next) {
+        return product(@$p) if sum(@$p) == 2020;
     }
 }
