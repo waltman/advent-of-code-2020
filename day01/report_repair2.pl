@@ -4,11 +4,8 @@ use warnings;
 use feature qw(:5.32);
 use experimental qw(signatures);
 
-my @entries;
-while (<>) {
-    chomp;
-    push @entries, $_;
-}
+my @entries = <>;
+chomp @entries;
 
 for my $i (0..$#entries-1) {
     for my $j ($i+1..$#entries) {

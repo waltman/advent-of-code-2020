@@ -6,11 +6,8 @@ use experimental qw(signatures);
 use Algorithm::Combinatorics qw(combinations);
 use List::Util qw(sum product);
 
-my @entries;
-while (<>) {
-    chomp;
-    push @entries, $_;
-}
+my @entries = <>;
+chomp @entries;
 
 say 'Part 1: ', find_result(\@entries, 2);
 say 'Part 2: ', find_result(\@entries, 3);
