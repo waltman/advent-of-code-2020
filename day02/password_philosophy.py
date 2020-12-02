@@ -8,7 +8,17 @@ def letter_count(password, letter):
             cnt += 1
     return cnt
 
-count = 0
+def is_valid(password, letter, p1, p2):
+    cnt = 0
+    if password[p1-1] == letter:
+        cnt += 1
+    if password[p2-1] == letter:
+        cnt += 1
+
+    return cnt == 1
+
+count1 = 0
+count2 = 0
 filename = argv[1]
 with open(filename) as f:
     for line in f:
@@ -18,7 +28,9 @@ with open(filename) as f:
         letter = letter[0]
         lc = letter_count(password, letter)
         if start <= letter_count(password, letter) <= end:
-            count += 1
+            count1 += 1
+        if is_valid(password, letter, start, end):
+            count2 += 1
 
-print('Part 1:', count)
-        
+print('Part 1:', count1)
+print('Part 2:', count2)
