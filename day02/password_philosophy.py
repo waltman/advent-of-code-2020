@@ -9,13 +9,7 @@ def letter_count(password, letter):
     return cnt
 
 def is_valid(password, letter, p1, p2):
-    cnt = 0
-    if password[p1-1] == letter:
-        cnt += 1
-    if password[p2-1] == letter:
-        cnt += 1
-
-    return cnt == 1
+    return (password[p1-1] == letter) ^ (password[p2-1] == letter)
 
 count1 = 0
 count2 = 0
