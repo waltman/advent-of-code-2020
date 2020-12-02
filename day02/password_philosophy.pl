@@ -5,11 +5,7 @@ use feature qw(:5.32);
 use experimental qw(signatures);
 
 sub letter_count($letter, @password_letters) {
-    my $cnt = 0;
-    for my $c (@password_letters) {
-        $cnt++ if $c eq $letter;
-    }
-    return $cnt;
+    return scalar grep {/$letter/} @password_letters;
 }
 
 sub is_valid($letter, $p1, $p2, @password_letters) {
