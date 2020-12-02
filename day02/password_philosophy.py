@@ -20,7 +20,6 @@ with open(filename) as f:
         times, letter, password = line.split(' ')
         start, end = (int(n) for n in times.split('-'))
         letter = letter[0]
-        lc = letter_count(password, letter)
         if start <= letter_count(password, letter) <= end:
             count1 += 1
         if is_valid(password, letter, start, end):
