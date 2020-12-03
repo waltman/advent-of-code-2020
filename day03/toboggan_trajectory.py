@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from sys import argv
+from functools import reduce
+from operator import mul
 
 def num_trees(tree_map, num_rows, num_cols, slope):
     trees = 0
@@ -35,8 +37,4 @@ slopes = [
     [1,2],
 ]
 
-tree_prod = 1
-for slope in slopes:
-    tree_prod *= num_trees(tree_map, num_rows, num_cols, slope)
-
-print('Part 2:', tree_prod)
+print('Part 2:', reduce(mul, [num_trees(tree_map, num_rows, num_cols, slope) for slope in slopes], 1))
