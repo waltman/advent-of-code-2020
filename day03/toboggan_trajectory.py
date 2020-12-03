@@ -15,7 +15,6 @@ def num_trees(tree_map, num_rows, num_cols, slope):
 
     return trees
 
-tree_map = []
 filename = argv[1]
 with open(filename) as f:
     tree_map = [line.rstrip() for line in f]
