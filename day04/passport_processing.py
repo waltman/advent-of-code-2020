@@ -20,7 +20,7 @@ valid_field = {
     'hgt': valid_hgt,
     'hcl': lambda v : re.match('#[0-9a-f]{6}', v),
     'ecl': lambda v : v in {'amb','blu','brn','gry','grn','hzl','oth'},
-    'pid': lambda v : re.match('\d{9}', v),
+    'pid': lambda v : re.match('^\d{9}$', v),
     'cid': lambda v : True,
 }
 
