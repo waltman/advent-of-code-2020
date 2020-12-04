@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -47,8 +46,8 @@ int main(int argc, char *argv[]) {
 
     // Part 1
     Slope slope = {3, 1};
-    printf("Part 1: %d\n", num_trees(tree_map, num_rows, num_cols, slope));
-
+    cout << "Part 1: " << num_trees(tree_map, num_rows, num_cols, slope) << endl;
+    
     // Part 2
     Slope slopes[] = {
         { 1, 1 },
@@ -62,7 +61,7 @@ int main(int argc, char *argv[]) {
     for (auto slope : slopes)
         tree_prod *= num_trees(tree_map, num_rows, num_cols, slope);
 
-    printf("Part 2: %llu\n", tree_prod);
+    cout << "Part 2: " << tree_prod << endl;
 }
 
 
