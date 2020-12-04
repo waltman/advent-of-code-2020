@@ -41,8 +41,8 @@ with open(filename) as f:
         else:
             if missing == set() or missing == {'cid'}:
                 num_valid += 1
-            if ok:
-                num_valid2 += 1
+                if ok:
+                    num_valid2 += 1
             missing = deepcopy(VALID)
             ok = True
 
