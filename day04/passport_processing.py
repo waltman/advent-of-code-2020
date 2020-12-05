@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from sys import argv
-from copy import deepcopy
 import re
 
 def valid_hgt(v):
@@ -10,8 +9,6 @@ def valid_hgt(v):
         return 59 <= int(v[0:-2]) <= 76
     else:
         return False
-
-VALID = {'byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid'}
 
 valid_field = {
     'byr': lambda v : 1920 <= int(v) <= 2002,
@@ -28,7 +25,7 @@ num_valid = 0
 num_valid2 = 0
 filename = argv[1]
 with open(filename) as f:
-    missing = deepcopy(VALID)
+    missing = set(valid_field.keys())
     ok = True
     for line in f:
         line = line.rstrip()
@@ -43,7 +40,7 @@ with open(filename) as f:
                 num_valid += 1
                 if ok:
                     num_valid2 += 1
-            missing = deepcopy(VALID)
+            missing = set(valid_field.keys())
             ok = True
 
 print('Part 1:', num_valid)
