@@ -8,10 +8,9 @@ using namespace std;
 
 const int decode_binary(const string s, const int start, const int len, const char *codes) {
     int sum = 0;
-    for (int i = start, shift = len-1; i < start+len; i++, shift--) {
-        int bit = s[i] == codes[0] ? 0 : 1;
-        sum += bit << shift;
-    }
+    for (int i = start, shift = len-1; i < start+len; i++, shift--)
+        sum += (s[i] == codes[0] ? 0 : 1) << shift;
+
     return sum;
 }
     
