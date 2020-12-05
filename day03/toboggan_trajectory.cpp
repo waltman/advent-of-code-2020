@@ -63,11 +63,3 @@ int main(int argc, char *argv[]) {
 
     cout << "Part 2: " << tree_prod << endl;
 }
-
-
-
-
-
-
-
-    
