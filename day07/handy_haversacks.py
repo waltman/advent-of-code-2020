@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+from sys import argv
+from collections import deque
+import re
+
+def contains_shiny_gold(rules, bag):
+    queue = deque()
+    queue.append(bag)
+    seen = set()
+    while (queue):
+        bag = queue.popleft()
+        if 'shiny gold' in rules[bag]:
+            return True
+        else:
+            seen.add(bag)
+            for b in rules[bag]:
+                if b not in seen:
+                    queue.append(b)
+    return False
+
+rules = dict()
+filename = argv[1]
+with open(filename) as f:
+    for line in f:
+        line = line.rstrip()
+        head, tail = line.split(' contain ')
+
+        # parse the head
+        m = re.search('^([a-z]+ [a-z]+) bag', head)
+        k = m.group(1)
+        if k not in rules:
+            rules[k] = set()
+
+        # parse the tail
+        bags = tail.split(', ')
+        for bag in bags:
+            m = re.search('^\d+ ([a-z]+ [a-z]+) bag', bag)
+            if m:
+                rules[k].add(m.group(1))
+
+num_bags = 0
+for bag in rules.keys():
+    if contains_shiny_gold(rules, bag):
+        num_bags += 1
+print('Part 1:', num_bags)
