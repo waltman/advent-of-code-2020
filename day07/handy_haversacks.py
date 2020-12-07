@@ -18,7 +18,21 @@ def contains_shiny_gold(rules, bag):
                     queue.append(b)
     return False
 
+def bag_count(rules, bag):
+    count = 0
+    print(rules)
+    print(bag, rules[bag])
+    if rules[bag]:
+        for n, b in rules[bag]:
+            print(n, b)
+            count += n * bag_count(rules, b)
+            print(count)
+        return count
+    else:
+        return 1
+
 rules = dict()
+rules2 = dict()
 filename = argv[1]
 with open(filename) as f:
     for line in f:
@@ -30,16 +44,20 @@ with open(filename) as f:
         k = m.group(1)
         if k not in rules:
             rules[k] = set()
+            rules2[k] = set()
 
         # parse the tail
         bags = tail.split(', ')
         for bag in bags:
-            m = re.search('^\d+ ([a-z]+ [a-z]+) bag', bag)
+            m = re.search('^(\d+) ([a-z]+ [a-z]+) bag', bag)
             if m:
-                rules[k].add(m.group(1))
+                rules[k].add(m.group(2))
+                rules2[k].add((int(m.group(1)),m.group(2)))
 
 num_bags = 0
 for bag in rules.keys():
     if contains_shiny_gold(rules, bag):
         num_bags += 1
 print('Part 1:', num_bags)
+
+print('Part 2:', bag_count(rules2, 'shiny gold'))
