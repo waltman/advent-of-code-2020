@@ -19,10 +19,10 @@ def contains_shiny_gold(rules, bag):
     return False
 
 def bag_count(rules, bag):
-    count = 0
     print(rules)
     print(bag, rules[bag])
     if rules[bag]:
+        count = 0
         for n, b in rules[bag]:
             print(n, b)
             count += n * bag_count(rules, b)
