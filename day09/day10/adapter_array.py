@@ -10,7 +10,7 @@ def paths_to(a, b):
         return 1
     else:
         tot = 0
-        for i in range(1,4):
+        for i in range(a+1, a+4):
             if i in adapter_set:
                 tot += paths_to(i, b)
         return tot
