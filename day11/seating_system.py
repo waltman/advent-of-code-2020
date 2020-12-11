@@ -34,8 +34,29 @@ def num_occupied(grid, row, col):
             tot += 1
     return tot
 
+def num_occupied2(grid, rows, cols, row, col):
+    adj = [(-1,-1), (-1,0), (-1,1),
+           ( 0,-1),         ( 0,1),
+           ( 1,-1), ( 1,0), ( 1,1),
+    ]
+    tot = 0
+    for p in adj:
+        r = row + p[0]
+        c = col + p[1]
+        while r >= 0 and r < rows and c >= 0 and c < cols:
+            if grid[r][c] == '#':
+                tot += 1
+                break
+            elif grid[r][c] == 'L':
+                break
+            else:
+                r += p[0]
+                c += p[1]
+    return tot
+
 filename = argv[1]
 grid = read_grid(filename)
+orig_grid = deepcopy(grid)
 rows = len(grid)
 cols = len(grid[0])
 #print_grid(grid)
@@ -64,3 +85,30 @@ for row in range(rows):
         if grid[row][col] == '#':
             cnt += 1
 print('Part 1:', cnt)
+
+# Part 2
+grid = deepcopy(orig_grid)
+while True:
+    new_grid = deepcopy(grid)
+    num_changed = 0
+    for row in range(1,rows-1):
+        for col in range(1,cols-1):
+            n = num_occupied2(grid, rows, cols, row, col)
+            if grid[row][col] == 'L' and n == 0:
+                new_grid[row][col] = '#'
+                num_changed += 1
+            elif grid[row][col] == '#' and n >= 5:
+                new_grid[row][col] = 'L'
+                num_changed += 1
+#    print_grid(new_grid)
+    if num_changed == 0:
+        break
+    else:
+        grid = deepcopy(new_grid)
+
+cnt = 0
+for row in range(rows):
+    for col in range(cols):
+        if grid[row][col] == '#':
+            cnt += 1
+print('Part 2:', cnt)
