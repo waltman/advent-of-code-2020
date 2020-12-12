@@ -2,20 +2,6 @@
 from sys import argv
 
 class Navigate:
-    next_right = {
-        ( 0, 1): (-1, 0),
-        (-1, 0): ( 0,-1),
-        ( 0,-1): ( 1, 0),
-        ( 1, 0): ( 0, 1),
-    }
-
-    next_left = {
-        ( 0, 1): ( 1, 0),
-        ( 1, 0): ( 0,-1),
-        ( 0,-1): (-1, 0),
-        (-1, 0): ( 0, 1),
-    }        
-
     def __init__(self):
         self.pos = [0,0]
         self.direction = 0,1
@@ -41,12 +27,20 @@ class Navigate:
             self.turn_left(value)
 
     def turn_right(self, value):
-        for _ in range(value // 90):
-            self.direction = self.next_right[self.direction]
+        if value == 90:
+            self.direction = -self.direction[1], self.direction[0]
+        elif value == 180:
+            self.direction = -self.direction[0], -self.direction[1]
+        elif value == 270:
+            self.direction = self.direction[1], -self.direction[0]
         
     def turn_left(self, value):
-        for _ in range(value // 90):
-            self.direction = self.next_left[self.direction]
+        if value == 90:
+            self.direction = self.direction[1], -self.direction[0]
+        elif value == 180:
+            self.direction = -self.direction[0], -self.direction[1]
+        elif value == 270:
+            self.direction = -self.direction[1], self.direction[0]
         
 class Waypoint(Navigate):
     def __init__(self):
