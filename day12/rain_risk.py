@@ -5,7 +5,7 @@ class Navigate:
     def __init__(self):
         self.pos = [0,0]
         self.direction = 0,1
-        
+
     def dist(self):
         return abs(self.pos[0]) + abs(self.pos[1])
 
@@ -33,7 +33,7 @@ class Navigate:
             self.direction = -self.direction[0], -self.direction[1]
         elif value == 270:
             self.direction = self.direction[1], -self.direction[0]
-        
+
     def turn_left(self, value):
         if value == 90:
             self.direction = self.direction[1], -self.direction[0]
@@ -41,12 +41,12 @@ class Navigate:
             self.direction = -self.direction[0], -self.direction[1]
         elif value == 270:
             self.direction = -self.direction[1], self.direction[0]
-        
+
 class Waypoint(Navigate):
     def __init__(self):
         Navigate.__init__(self)
         self.waypoint = [1,10]
-        
+
     def move(self, action, value):
         if action == 'N':
             self.waypoint[0] += value
@@ -71,7 +71,7 @@ class Waypoint(Navigate):
             self.waypoint = [-self.waypoint[0], -self.waypoint[1]]
         elif value == 270:
             self.waypoint = [self.waypoint[1], -self.waypoint[0]]
-        
+
     def turn_left(self, value):
         if value == 90:
             self.waypoint = [self.waypoint[1], -self.waypoint[0]]
@@ -79,7 +79,7 @@ class Waypoint(Navigate):
             self.waypoint = [-self.waypoint[0], -self.waypoint[1]]
         elif value == 270:
             self.waypoint = [-self.waypoint[1], self.waypoint[0]]
-        
+
 nav = Navigate()
 wp = Waypoint()
 filename = argv[1]
