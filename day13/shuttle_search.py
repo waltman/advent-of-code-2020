@@ -10,8 +10,7 @@ with open(filename) as f:
     ids = [int(i) for i in ids_raw if i != 'x']
     for i in range(len(ids_raw)):
         if ids_raw[i] != 'x':
-            n = int(ids_raw[i])
-            v.append(0 if i == 0 else n-i)
+            v.append(0 if i == 0 else int(ids_raw[i])-i)
 
 i = 0
 found = False
