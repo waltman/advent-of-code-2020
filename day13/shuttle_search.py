@@ -3,14 +3,11 @@ from sys import argv
 from sympy.ntheory.modular import crt
 
 filename = argv[1]
-v = []
 with open(filename) as f:
     start_time = int(f.readline().rstrip())
     ids_raw = f.readline().rstrip().split(',')
     ids = [int(i) for i in ids_raw if i != 'x']
-    for i in range(len(ids_raw)):
-        if ids_raw[i] != 'x':
-            v.append(0 if i == 0 else int(ids_raw[i])-i)
+    v = [(int(id_raw)-i) % int(id_raw) for i, id_raw in enumerate(ids_raw) if id_raw != 'x']
 
 i = 0
 found = False
