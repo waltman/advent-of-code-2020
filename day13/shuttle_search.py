@@ -3,7 +3,6 @@ from sys import argv
 from sympy.ntheory.modular import crt
 
 filename = argv[1]
-m = []
 v = []
 with open(filename) as f:
     start_time = int(f.readline().rstrip())
@@ -12,7 +11,6 @@ with open(filename) as f:
     for i in range(len(ids_raw)):
         if ids_raw[i] != 'x':
             n = int(ids_raw[i])
-            m.append(n)
             v.append(0 if i == 0 else n-i)
 
 i = 0
@@ -26,4 +24,4 @@ while not found:
             break
     i += 1
 
-print('Part 2:', crt(m, v)[0])
+print('Part 2:', crt(ids, v)[0])
