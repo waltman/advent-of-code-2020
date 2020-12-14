@@ -9,8 +9,9 @@ with open(filename) as f:
     for line in f:
         line = line.rstrip()
         if line[0:4] == 'mask':
-            one_mask =  int(''.join(['1' if c == '1' else '0' for c in line]), 2)
-            zero_mask = int(''.join(['0' if c == '0' else '1' for c in line]), 2)
+            mask = line.split(' = ')[1]
+            one_mask =  int(''.join(['1' if c == '1' else '0' for c in mask]), 2)
+            zero_mask = int(''.join(['0' if c == '0' else '1' for c in mask]), 2)
         else:
             m = re.search('mem\[(\d+)\] = (\d+)', line)
             k = int(m.group(1))
