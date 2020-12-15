@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from sys import argv
-from collections import defaultdict
 from itertools import product
 from copy import deepcopy
 import re
@@ -23,8 +22,8 @@ def mask_addrs(mask, addr):
             t[xpos[i]] = p[i]
         yield int(''.join(t), 2)
 
-mem = defaultdict(int)
-mem2 = defaultdict(int)
+mem = {}
+mem2 = {}
 filename = argv[1]
 with open(filename) as f:
     for line in f:
