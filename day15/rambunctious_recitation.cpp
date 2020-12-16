@@ -13,7 +13,7 @@ typedef struct {
     int second;
 } LastInfo;
 
-int do_turn(map<int, LastInfo> &last_seen, int t, int last) {
+int do_turn(LastInfo *last_seen, int t, int last) {
     LastInfo li = last_seen[last];
     int next_val;
     if (li.second == -1)
@@ -21,9 +21,9 @@ int do_turn(map<int, LastInfo> &last_seen, int t, int last) {
     else
         next_val = li.second - li.first;
 
-    if (in_map(last_seen, next_val)) {
+    if (last_seen[next_val].first >= 0) {
         LastInfo old_li = last_seen[next_val];
-        int i = (old_li.second >= 0) ? old_li.second : old_li.first;
+        int i = (old_li.second > 0) ? old_li.second : old_li.first;
         last_seen[next_val] = {i, t};
     } else
         last_seen[next_val] = {t, -1};
@@ -34,15 +34,14 @@ int do_turn(map<int, LastInfo> &last_seen, int t, int last) {
 
 int main(int argc, char *argv[]) {
     vector<string> v = vec_split(argv[1], ',');
-    map<int, LastInfo> last_seen;
+    LastInfo *last_seen = new LastInfo[30000000];
+    for (int t = 0; t < 30000000; t++)
+        last_seen[t] = {-1,-1};
+    
     for (size_t t = 0; t < v.size(); t++) {
         LastInfo li = {(int) t+1, -1};
         last_seen[atoi(v[t].c_str())] = li;
     }
-
-    // for (std::pair<const int, LastInfo> element : last_seen) {
-    //     cout << element.first << " " << last_seen[element.first].first << " " << last_seen[element.first].second << endl;
-    // }
 
     int last = 0;
     for (int t = v.size()+1; t <= 2020; t++)
