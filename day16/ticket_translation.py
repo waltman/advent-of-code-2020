@@ -4,12 +4,14 @@ from collections import defaultdict
 import re
 
 def valid_tag(rules, tag):
+    valids = []
     for k,ranges in rules.items():
         for r in ranges:
             start, end = r
             if start <= tag <= end:
-                return True
-    return False
+                valids.append(k)
+                break
+    return valids
 
 filename = argv[1]
 state = 'rules'
@@ -30,7 +32,8 @@ with open(filename) as f:
         elif state == 'nearby':
             tags = [int(x) for x in line.split(',')]
             for tag in tags:
-                if not valid_tag(rules, tag):
+                valids = valid_tag(rules, tag)
+                if not valids:
                     tot += tag
 
 print('Part 1: ', tot)
