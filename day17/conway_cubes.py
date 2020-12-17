@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from sys import argv
-from copy import deepcopy
 import numpy as np
 
 def read_grid(filename, n, offset):
