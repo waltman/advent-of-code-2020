@@ -16,7 +16,7 @@ def read_grid(filename, n, offset):
     return grid
 
 def neighbors(grid, z, r, c):
-    return sum(sum(sum(grid[z-1:z+2,r-1:r+2,c-1:c+2])))
+    return np.sum(grid[z-1:z+2,r-1:r+2,c-1:c+2])
 
 def cycle(grid):
     new_grid = grid.copy()
@@ -44,7 +44,7 @@ def read_grid2(filename, n, offset):
     return grid
 
 def neighbors2(grid, w, z, r, c):
-    return sum(sum(sum(sum(grid[w-1:w+2,z-1:z+2,r-1:r+2,c-1:c+2]))))
+    return np.sum(grid[w-1:w+2,z-1:z+2,r-1:r+2,c-1:c+2])
 
 def cycle2(grid):
     new_grid = grid.copy()
@@ -66,10 +66,10 @@ grid = read_grid(filename, N, OFFSET)
 
 for cyc in range(6):
     grid = cycle(grid).copy()
-print('Part1:', sum(sum(sum(grid))))
+print('Part1:', np.sum(grid))
 
 grid2 = read_grid2(filename, N, OFFSET)
 
 for cyc in range(6):
     grid2 = cycle2(grid2).copy()
-print('Part2:', sum(sum(sum(sum(grid2)))))
+print('Part2:', np.sum(grid2))
