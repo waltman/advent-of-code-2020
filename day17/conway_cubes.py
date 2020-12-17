@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from sys import argv
 import numpy as np
+from itertools import product
 
 def read_grid(filename, n, offset):
     grid = np.zeros([n,n,n], dtype=int)
@@ -20,14 +21,12 @@ def neighbors(grid, z, r, c):
 
 def cycle(grid):
     new_grid = grid.copy()
-    for z in range(1, len(grid)-1):
-        for r in range(1, len(grid)-1):
-            for c in range(1, len(grid)-1):
-                cnt = neighbors(grid, z, r, c)
-                if grid[z][r][c] == 1 and (cnt < 3 or cnt > 4):
-                    new_grid[z][r][c] = 0
-                elif grid[z][r][c] == 0 and cnt == 3:
-                    new_grid[z][r][c] = 1
+    for z,r,c in product(range(1, len(grid)-1), repeat=3):
+        cnt = neighbors(grid, z, r, c)
+        if grid[z][r][c] == 1 and (cnt < 3 or cnt > 4):
+            new_grid[z][r][c] = 0
+        elif grid[z][r][c] == 0 and cnt == 3:
+            new_grid[z][r][c] = 1
     return new_grid
 
 def read_grid2(filename, n, offset):
@@ -48,15 +47,12 @@ def neighbors2(grid, w, z, r, c):
 
 def cycle2(grid):
     new_grid = grid.copy()
-    for w in range(1, len(grid)-1):
-        for z in range(1, len(grid)-1):
-            for r in range(1, len(grid)-1):
-                for c in range(1, len(grid)-1):
-                    cnt = neighbors2(grid, w, z, r, c)
-                    if grid[w][z][r][c] == 1 and (cnt < 3 or cnt > 4):
-                        new_grid[w][z][r][c] = 0
-                    elif grid[w][z][r][c] == 0 and cnt == 3:
-                        new_grid[w][z][r][c] = 1
+    for w,z,r,c in product(range(1, len(grid)-1), repeat=4):
+        cnt = neighbors2(grid, w, z, r, c)
+        if grid[w][z][r][c] == 1 and (cnt < 3 or cnt > 4):
+            new_grid[w][z][r][c] = 0
+        elif grid[w][z][r][c] == 0 and cnt == 3:
+            new_grid[w][z][r][c] = 1
     return new_grid
 
 N = 23
