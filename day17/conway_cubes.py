@@ -31,8 +31,8 @@ def cycle(grid):
                     new_grid[z][r][c] = 1
     return new_grid
 
-N = 50
-OFFSET = 20
+N = 23
+OFFSET = 7
 filename = argv[1]
 grid = read_grid(filename, N, OFFSET)
 
