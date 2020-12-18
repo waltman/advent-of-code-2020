@@ -19,11 +19,9 @@ def expand_parens(m):
     return str(eval_rl(m.group(1)))
 
 def expand_times(m):
-#    print('expand_times', m.group(1), m.group(2))
     return str(int(m.group(1)) * int(m.group(2)))
 
 def expand_plus(m):
-#    print('expand_plus', m.group(1), m.group(2))
     return str(int(m.group(1)) + int(m.group(2)))
 
 def eval2(s):
@@ -39,7 +37,6 @@ def eval2(s):
             break
         else:
             s2 = s3
-#    print('eval2', s2, '->', s3)
     return eval_rl(s3)
 
 def expand_parens2(m):
@@ -53,14 +50,12 @@ with open(filename) as f:
         orig_line = line
         while True:
             new_line = re.sub('\(([^()]+)\)', expand_parens, line, count=1)
-#            print(line, '->', new_line)
             if new_line == line:
                 break
             else:
                 line = new_line
         res = eval_rl(new_line)
         tot += res
-#        print(orig_line, '=', res)
         
 print('Part 1', tot)
 
@@ -71,12 +66,10 @@ with open(filename) as f:
         orig_line = line
         while True:
             new_line = re.sub('\(([^()]+)\)', expand_parens2, line, count=1)
-#            print(line, '->', new_line)
             if new_line == line:
                 break
             else:
                 line = new_line
         res = eval2(new_line)
         tot += res
-#        print(orig_line, '=', res)
 print('Part 2', tot)
