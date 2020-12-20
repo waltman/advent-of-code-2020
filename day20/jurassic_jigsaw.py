@@ -36,19 +36,42 @@ def parse_input(filename):
                 row += 1
     return tiles
 
+def find_neighbors(tiles):
+    neighbors = defaultdict(set)
+    for t in tiles:
+        for e in t.edges():
+            neighbors[e].add(t.num)
+#    return neighbors
+    return [n for n in neighbors.values() if len(n) == 2]
+
+def num_neighbors(neighbors):
+    neighs = defaultdict(int)
+    for s in neighbors:
+        for n in s:
+            neighs[n] += 1
+    return neighs
+
 filename = argv[1]
 tiles = parse_input(filename)
-edges = defaultdict(int)
-for t in tiles:
-#    print(t.num)
-#    print(t.grid)
-#    print(t.edges())
-    for e in t.edges():
-        edges[e] += 1
-print(edges)
-cnts = defaultdict(int)
-for v in edges.values():
-    cnts[v] += 1
-print(cnts)
+# edges = defaultdict(int)
+# for t in tiles:
+# #    print(t.num)
+# #    print(t.grid)
+# #    print(t.edges())
+#     for e in t.edges():
+#         edges[e] += 1
+# print(edges)
+# cnts = defaultdict(int)
+# for v in edges.values():
+#     cnts[v] += 1
+# print(cnts)
 
-    
+neighbors = find_neighbors(tiles)
+print(neighbors)
+neighs = num_neighbors(neighbors)
+print(neighs)
+prod = 1
+for n in neighs:
+    if neighs[n] == 4:
+        prod *= n
+print('Part 1:', prod)
