@@ -3,6 +3,7 @@ from sys import argv
 import numpy as np
 import re
 from collections import defaultdict
+import networkx as nx
 
 def array2bin(a):
     return int(''.join([str(c) for c in a]), 2)
@@ -67,11 +68,60 @@ tiles = parse_input(filename)
 # print(cnts)
 
 neighbors = find_neighbors(tiles)
-print(neighbors)
+print('neigbors =', neighbors)
 neighs = num_neighbors(neighbors)
-print(neighs)
 prod = 1
 for n in neighs:
     if neighs[n] == 4:
         prod *= n
 print('Part 1:', prod)
+N = int(len(tiles)**0.5)
+corners = {n for n in neighs if neighs[n] == 4}
+print(corners)
+print(list(corners)[0])
+
+G = nx.Graph()
+for n in neighbors:
+    nl = list(n)
+    G.add_edge(nl[0], nl[1])
+# print(nx.shortest_path(G, 1951, 3079))
+# print(nx.shortest_path(G, 1951, 2971))
+# print(nx.shortest_path(G, 1951, 1171))
+
+# Slot the tiles into the image
+image = [[0 for i in range(N)] for j in range(N)]
+
+# Add the corners
+corner_list = list(corners)
+image[0][0] = corner_list[0]
+for i in range(1,4):
+    if len(nx.shortest_path(G, corner_list[0], corner_list[i])) == N:
+        if image[0][N-1] == 0:
+            image[0][N-1] = corner_list[i]
+        else:
+            image[N-1][0] = corner_list[i]
+    else:
+        image[N-1][N-1] = corner_list[i]
+
+# first row
+path = nx.shortest_path(G, image[0][0], image[0][N-1])
+for i in range(1, N-1):
+    image[0][i] = path[i]
+
+# first col
+path = nx.shortest_path(G, image[0][0], image[N-1][0])
+for i in range(1, N-1):
+    image[i][0] = path[i]
+
+# last col
+path = nx.shortest_path(G, image[0][N-1], image[N-1][N-1])
+for i in range(1, N-1):
+    image[i][N-1] = path[i]
+
+# rows 1 through N-1
+for r in range(1, N):
+    path = nx.shortest_path(G, image[r][0], image[r][N-1])
+    for i in range(1, N-1):
+        image[r][i] = path[i]
+
+print(image)
