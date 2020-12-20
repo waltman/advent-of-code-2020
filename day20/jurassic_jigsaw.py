@@ -2,11 +2,21 @@
 from sys import argv
 import numpy as np
 import re
+from collections import defaultdict
+
+def array2bin(a):
+    return int(''.join([str(c) for c in a]), 2)
 
 class Tile:
     def __init__(self, num, grid):
         self.num = num
         self.grid = grid
+
+    def edges(self):
+        return [array2bin(a) for a in [self.grid[0], np.flip(self.grid[0]),
+                                       self.grid[9], np.flip(self.grid[9]),
+                                       self.grid[:,0], np.flip(self.grid[:,0]),
+                                       self.grid[:,9], np.flip(self.grid[:,9])]]
 
 def parse_input(filename):
     tiles = []
@@ -28,6 +38,17 @@ def parse_input(filename):
 
 filename = argv[1]
 tiles = parse_input(filename)
+edges = defaultdict(int)
 for t in tiles:
-    print(t.num)
-    print(t.grid)
+#    print(t.num)
+#    print(t.grid)
+#    print(t.edges())
+    for e in t.edges():
+        edges[e] += 1
+print(edges)
+cnts = defaultdict(int)
+for v in edges.values():
+    cnts[v] += 1
+print(cnts)
+
+    
