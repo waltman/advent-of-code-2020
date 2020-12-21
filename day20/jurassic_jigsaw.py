@@ -19,8 +19,13 @@ class Tile:
                                        self.grid[:,0], np.flip(self.grid[:,0]),
                                        self.grid[:,9], np.flip(self.grid[:,9])]]
 
+    def shared_edge(self, tile):
+        mine = set(self.edges())
+        theirs = set(tile.edges())
+        return mine & theirs
+
 def parse_input(filename):
-    tiles = []
+    tiles = {}
     
     with open(filename) as f:
         for line in f:
@@ -30,7 +35,7 @@ def parse_input(filename):
                 grid = np.zeros([10,10], dtype=int)
                 row = 0
             elif line == '':
-                tiles.append(Tile(num, grid))
+                tiles[num] = Tile(num, grid)
             else:
                 for c in range(10):
                     grid[row][c] = 0 if line[c] == '.' else 1
@@ -67,7 +72,7 @@ tiles = parse_input(filename)
 #     cnts[v] += 1
 # print(cnts)
 
-neighbors = find_neighbors(tiles)
+neighbors = find_neighbors(tiles.values())
 print('neigbors =', neighbors)
 neighs = num_neighbors(neighbors)
 prod = 1
@@ -76,6 +81,7 @@ for n in neighs:
         prod *= n
 print('Part 1:', prod)
 N = int(len(tiles)**0.5)
+print(f'{N=}')
 corners = {n for n in neighs if neighs[n] == 4}
 print(corners)
 print(list(corners)[0])
@@ -125,3 +131,14 @@ for r in range(1, N):
         image[r][i] = path[i]
 
 print(image)
+
+# set image to the example to test alignment
+image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
+print(image)
+
+# line up the top row
+for c in range(N-1):
+    print(f'{image[0][c]=} {tiles[image[0][c]].edges()=}')
+    shared = tiles[image[0][c]].shared_edge(tiles[image[0][c+1]])
+    print(f'{c=} {shared=}')
+    
