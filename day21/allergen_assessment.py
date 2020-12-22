@@ -38,25 +38,40 @@ def make_constraint(p, f, i):
     print(l, f)
     p.addConstraint(eval(l), f)
 
-foods = set()
+foods = {}
 problem = Problem()
 filename = argv[1]
 with open(filename) as f:
     for line in f:
         line = line.rstrip()
         fields = line.split(' (')
+        m = re.search('contains (.*)\)', fields[1])
+        i = m.group(1).split(', ')
         f = fields[0].split(' ')
         for fd in f:
             if fd not in foods:
-                foods.add(fd)
-                problem.addVariable(fd, list(ingred_no.values()))
+                foods[fd] = set([0])
+#                problem.addVariable(fd, list(ingred_no.values()))
+            for ing in i:
+                foods[fd].add(ingred_no[ing])
+        
+print(f'{len(foods)=}')
+print(f'{foods=}')
+print(f'{list(foods)}')
+for fd in foods:
+    problem.addVariable(fd, list(foods[fd]))
+    
+problem.addConstraint(FunctionConstraint(all_diff_nonzero), foods.keys())
+problem.addConstraint(FunctionConstraint(sum_to), foods.keys())
+
+with open(filename) as f:
+    for line in f:
+        line = line.rstrip()
+        fields = line.split(' (')
+        f = fields[0].split(' ')
         m = re.search('contains (.*)\)', fields[1])
         i = m.group(1).split(', ')
         print(f'{i=}')
         make_constraint(problem, f, i)
-        
-print(f'{len(foods)=}')
-print(f'{foods=}')
-problem.addConstraint(FunctionConstraint(all_diff_nonzero), list(foods))
-problem.addConstraint(FunctionConstraint(sum_to), list(foods))
+
 print(problem.getSolutions())
