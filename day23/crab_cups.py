@@ -19,18 +19,14 @@ def create_circle_list(cups):
 
 def do_move(clist):
     # bypass the next 3 nodes
-#    print('bypassing')
     front = clist.next_node
     back = front.next_node.next_node
     clist.next_node = back.next_node
 
     # which vals were just picked?
-#    print('picked?')
     picked = set([front.val, front.next_node.val, front.next_node.next_node.val])
-#    print(f'{picked=}')
 
     # find the destination node num
-#    print('find destination num')
     dest = clist.val - 1
     if dest == 0:
         dest = 9
@@ -38,16 +34,13 @@ def do_move(clist):
         dest = dest - 1
         if dest == 0:
             dest = 9
-#    print(f'{dest=}')
 
     # find the destination node
-#    print('find destination node')
     p = clist.next_node
     while p.val != dest:
         p = p.next_node
 
     # insert the picked nodes at p
-#    print('insert')
     back.next_node = p.next_node
     p.next_node = front
 
@@ -72,7 +65,6 @@ clist = create_circle_list(argv[1])
 for move in range(100):
     do_move(clist)
     clist = clist.next_node
-#    print('cur =', clist.val)
     print(f'{move=}  ', end='')
     tmp = clist
     for _ in range(len(argv[1])):
