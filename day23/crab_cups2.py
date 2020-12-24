@@ -21,7 +21,6 @@ def create_circle_list(cups):
     for i in range(len(arr)-1):
         d[arr[i]].next_node = d[arr[(i+1) % len(arr)]]
 
-    # d[arr[8]].next_node = d[arr[0]]
     d[arr[8]].next_node = d[10]
     for i in range(10, N):
         d[i].next_node = d[i+1]
@@ -68,22 +67,12 @@ def compute_score(clist):
     return x * y
 
 clist, d = create_circle_list(argv[1])
-# tmp = clist
-# for _ in range(N):
-#     print(tmp.val)
-#     tmp = tmp.next_node
 
 for move in range(MOVES):
     if move % 100_000 == 0:
         print(f'{move=}')
     do_move(clist, d)
     clist = clist.next_node
-    # print(f'{move=}  ', end='')
-    # tmp = clist
-    # for _ in range(N):
-    #     print(f'{tmp.val} ', end='')
-    #     tmp = tmp.next_node
-    # print()
 
 # compute score
 print('Part 2:', compute_score(clist))
