@@ -47,7 +47,6 @@ def find_neighbors(tiles):
     for t in tiles:
         for e in t.edges():
             neighbors[e].add(t.num)
-#    return neighbors
     return [n for n in neighbors.values() if len(n) == 2]
 
 def num_neighbors(neighbors):
@@ -59,18 +58,6 @@ def num_neighbors(neighbors):
 
 filename = argv[1]
 tiles = parse_input(filename)
-# edges = defaultdict(int)
-# for t in tiles:
-# #    print(t.num)
-# #    print(t.grid)
-# #    print(t.edges())
-#     for e in t.edges():
-#         edges[e] += 1
-# print(edges)
-# cnts = defaultdict(int)
-# for v in edges.values():
-#     cnts[v] += 1
-# print(cnts)
 
 neighbors = find_neighbors(tiles.values())
 print('neigbors =', neighbors)
@@ -90,9 +77,6 @@ G = nx.Graph()
 for n in neighbors:
     nl = list(n)
     G.add_edge(nl[0], nl[1])
-# print(nx.shortest_path(G, 1951, 3079))
-# print(nx.shortest_path(G, 1951, 2971))
-# print(nx.shortest_path(G, 1951, 1171))
 
 # Slot the tiles into the image
 image = [[0 for i in range(N)] for j in range(N)]
