@@ -5,6 +5,11 @@ import re
 from collections import defaultdict
 import networkx as nx
 
+monster = np.array([
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
+    [1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1],
+    [0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0]])
+
 def array2bin(a):
     return int(''.join([str(c) for c in a]), 2)
 
@@ -70,6 +75,19 @@ def num_neighbors(neighbors):
             neighs[n] += 1
     return neighs
 
+def is_monster(m):
+    for r in range(monster.shape[0]):
+        for c in range(monster.shape[1]):
+            if monster[r][c] == 1 and m[r][c] != 1:
+                return False
+    return True
+    
+def clear_monster(m):
+    for r in range(monster.shape[0]):
+        for c in range(monster.shape[1]):
+            if monster[r][c] == 1:
+                m[r][c] = 0
+    
 filename = argv[1]
 tiles = parse_input(filename)
 
@@ -131,8 +149,8 @@ for r in range(1, N):
 print(f'{image=}')
 
 # set image to the example to test alignment
-image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
-print(f'{image=}')
+# image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
+# print(f'{image=}')
 
 # line up the top row
 
@@ -229,5 +247,17 @@ for r in range(N):
     else:
         im = row.copy()
 
-print(im)
-
+# look for monsters
+imt = Tile(0, im)
+rows,cols = monster.shape
+found = False
+for g in imt.grids():
+    if found:
+        break
+    for r in range(0, g.shape[0] - rows):
+        for c in range(0, g.shape[1] - cols):
+            if is_monster(g[r:r+rows,c:c+cols]):
+                found = True
+                clear_monster(g[r:r+rows,c:c+cols])
+    if found:
+        print('Part 2:', np.sum(g))
