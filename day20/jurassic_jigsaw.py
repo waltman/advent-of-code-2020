@@ -24,6 +24,17 @@ class Tile:
         theirs = set(tile.edges())
         return mine & theirs
 
+    def grids(self):
+        g = self.grid
+        for _ in range(4):
+            yield g
+            g = np.rot90(g)
+
+        g = np.fliplr(g)
+        for _ in range(4):
+            yield g
+            g = np.rot90(g)
+
 def parse_input(filename):
     tiles = {}
     
@@ -114,15 +125,94 @@ for r in range(1, N):
     for i in range(1, N-1):
         image[r][i] = path[i]
 
-print(image)
+print(f'{image=}')
 
 # set image to the example to test alignment
-image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
-print(image)
+# image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
+# print(f'{image=}')
 
 # line up the top row
-for c in range(N-1):
-    print(f'{image[0][c]=} {tiles[image[0][c]].edges()=}')
-    shared = tiles[image[0][c]].shared_edge(tiles[image[0][c+1]])
-    print(f'{c=} {shared=}')
-    
+
+# align [0][0] and [0][1]
+found = False
+for gl in tiles[image[0][0]].grids():
+    if found:
+        break
+    for gr in tiles[image[0][1]].grids():
+        if (gl[:,-1] == gr[:,-1]).all():
+            tiles[image[0][0]].grid = gl
+            tiles[image[0][1]].grid = np.fliplr(gr)
+            found = True
+            break
+
+# align the rest of the top row
+for c in range(1, N-1):
+    found = False
+    for gl in tiles[image[0][c]].grids():
+        if found:
+            break
+        for gr in tiles[image[0][c+1]].grids():
+            if (gl[:,-1] == gr[:,-1]).all():
+                tiles[image[0][c]].grid = gl
+                tiles[image[0][c+1]].grid = np.fliplr(gr)
+                found = True
+                break
+
+# align [1][0]
+found = False
+gt = tiles[image[0][0]].grid
+r = 1
+for gb in tiles[image[r][0]].grids():
+    if (gt[-1] == gb[-1]).all():
+        tiles[image[r][0]].grid = np.flipud(gb)
+        break
+    elif (gt[0] == gb[-1]).all():
+        # flip the entire top row
+        for c in range(N):
+            tiles[image[0][c]].grid = np.flipud(tiles[image[0][c]].grid)
+        tiles[image[r][0]].grid = np.flipud(gb)
+        break
+
+# align the rest of the second row
+for c in range(0, N-1):
+    found = False
+    for gl in tiles[image[r][c]].grids():
+        if found:
+            break
+        for gr in tiles[image[r][c+1]].grids():
+            if (gl[:,-1] == gr[:,-1]).all():
+                tiles[image[r][c]].grid = gl
+                tiles[image[r][c+1]].grid = np.fliplr(gr)
+                found = True
+                break
+
+# Now do rows 2..N-1
+for r in range(2,N):
+    # align [r][0]
+    found = False
+    gt = tiles[image[r-1][0]].grid
+    for gb in tiles[image[r][0]].grids():
+        if (gt[-1] == gb[-1]).all():
+            tiles[image[r][0]].grid = np.flipud(gb)
+            break
+
+    # align the rest of the row
+    for c in range(0, N-1):
+        found = False
+        for gl in tiles[image[r][c]].grids():
+            if found:
+                break
+            for gr in tiles[image[r][c+1]].grids():
+                if (gl[:,-1] == gr[:,-1]).all():
+                    tiles[image[r][c]].grid = gl
+                    tiles[image[r][c+1]].grid = np.fliplr(gr)
+                    found = True
+                    break
+
+for r in range(N):
+    for c in range(N):
+        print(r,c)
+        print(tiles[image[r][c]].grid)
+        print()
+
+
