@@ -35,6 +35,9 @@ class Tile:
             yield g
             g = np.rot90(g)
 
+    def interior(self):
+        return self.grid[1:-1,1:-1]
+
 def parse_input(filename):
     tiles = {}
     
@@ -128,8 +131,8 @@ for r in range(1, N):
 print(f'{image=}')
 
 # set image to the example to test alignment
-# image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
-# print(f'{image=}')
+image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
+print(f'{image=}')
 
 # line up the top row
 
@@ -215,4 +218,16 @@ for r in range(N):
         print(tiles[image[r][c]].grid)
         print()
 
+# build the image
+im = None
+for r in range(N):
+    row = np.hstack((tiles[image[r][0]].interior(), tiles[image[r][1]].interior()))
+    for c in range(2,N):
+        row = np.hstack((row, tiles[image[r][c]].interior()))
+    if im is not None:
+        im = np.vstack((im, row))
+    else:
+        im = row.copy()
+
+print(im)
 
