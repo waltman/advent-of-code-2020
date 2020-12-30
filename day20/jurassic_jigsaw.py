@@ -92,7 +92,6 @@ filename = argv[1]
 tiles = parse_input(filename)
 
 neighbors = find_neighbors(tiles.values())
-print('neigbors =', neighbors)
 neighs = num_neighbors(neighbors)
 prod = 1
 for n in neighs:
@@ -100,10 +99,7 @@ for n in neighs:
         prod *= n
 print('Part 1:', prod)
 N = int(len(tiles)**0.5)
-print(f'{N=}')
 corners = {n for n in neighs if neighs[n] == 4}
-print(corners)
-print(list(corners)[0])
 
 G = nx.Graph()
 for n in neighbors:
@@ -145,8 +141,6 @@ for r in range(1, N):
     path = nx.shortest_path(G, image[r][0], image[r][N-1])
     for i in range(1, N-1):
         image[r][i] = path[i]
-
-print(f'{image=}')
 
 # set image to the example to test alignment
 # image = [[1951, 2311, 3079], [2729, 1427, 2473], [2971, 1489, 1171]]
@@ -229,12 +223,6 @@ for r in range(2,N):
                     tiles[image[r][c+1]].grid = np.fliplr(gr)
                     found = True
                     break
-
-for r in range(N):
-    for c in range(N):
-        print(r,c)
-        print(tiles[image[r][c]].grid)
-        print()
 
 # build the image
 im = None
